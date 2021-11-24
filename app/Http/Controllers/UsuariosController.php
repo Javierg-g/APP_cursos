@@ -47,6 +47,7 @@ class UsuariosController extends Controller
 
             try {
                 $usuario->activado = 0;
+                $usuario->save();
                 $respuesta['msg'] = "Usuario desactivado";
             } catch (\Exception $e) {
                 $respuesta['status'] = 0;
@@ -90,7 +91,7 @@ class UsuariosController extends Controller
             try {
                 $usuario->save();
 
-                $respuesta['msg'] = "Persona guardada con id" . $usuario->id;
+                $respuesta['msg'] = "Usuario guardada con id" . $usuario->id;
             } catch (\Exception $e) {
                 $respuesta['status'] = 0;
                 $respuesta['msg'] = "Se ha producido un error" . $e->getMessage();
@@ -112,7 +113,7 @@ class UsuariosController extends Controller
         return response()->json($respuesta);
     }*/
 
-    /*public function ver($id){
+    public function ver($id){
         $respuesta = ["status" => 1, "msg" => ""];
 
 
@@ -127,6 +128,6 @@ class UsuariosController extends Controller
         }
 
         return response()->json($respuesta);
-    }*/
+    }
     
 }
