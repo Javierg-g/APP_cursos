@@ -28,7 +28,6 @@ class UsuariosController extends Controller
         //Escribir en BBDD
         try {
             $usuario->save();
-
             $respuesta['msg'] = "Usuario guardado con id" . $usuario->id;
         } catch (\Exception $e) {
             $respuesta['status'] = 0;
