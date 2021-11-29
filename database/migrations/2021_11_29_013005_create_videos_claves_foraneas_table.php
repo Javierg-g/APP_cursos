@@ -14,8 +14,7 @@ class CreateVideosClavesForaneasTable extends Migration
     public function up()
     {
         Schema::table('videos', function (Blueprint $table) {
-            $table->foreign('curso_id')-> references('id')->on('cursos');
-          
+            $table->foreign('curso_id')->references('id')->on('cursos');
         });
     }
 
@@ -26,7 +25,7 @@ class CreateVideosClavesForaneasTable extends Migration
      */
     public function down()
     {
-        Schema::table('videos', function (Blueprint $table){
+        Schema::table('videos', function (Blueprint $table) {
             $table->dropForeign('videos_curso_id_foreign');
             $table->$table->dropColumn('curso_id');
         });

@@ -38,17 +38,17 @@ class VideosController extends Controller
         return response()->json($respuesta);
     }
 
-        public function listar(){
+    public function listar()
+    {
 
         $respuesta = ["status" => 1, "msg" => ""];
-        try{
+        try {
             $videos = Video::all();
             $respuesta['datos'] = $videos;
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             $respuesta['status'] = 0;
-            $respuesta['msg'] = "Se ha producido un error: ".$e->getMessage();
+            $respuesta['msg'] = "Se ha producido un error: " . $e->getMessage();
         }
         return response()->json($respuesta);
     }
-
 }

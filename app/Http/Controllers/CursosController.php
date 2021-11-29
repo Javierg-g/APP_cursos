@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Curso;
 
 
@@ -35,18 +36,22 @@ class CursosController extends Controller
         return response()->json($respuesta);
     }
 
-        public function listar(){
+    public function listar()
+    {
 
         $respuesta = ["status" => 1, "msg" => ""];
-        try{
+        try {
             $cursos = Curso::all();
+            $videos = DB::table('videos')->count();
+
             $respuesta['datos'] = $cursos;
-        }catch(\Exception $e){
+            //$videos = DB::table('videos')->where('curso_id', )->count();
+            $respuesta['numero_videos'] = $videos;
+
+        } catch (\Exception $e) {
             $respuesta['status'] = 0;
-            $respuesta['msg'] = "Se ha producido un error: ".$e->getMessage();
+            $respuesta['msg'] = "Se ha producido un error: " . $e->getMessage();
         }
         return response()->json($respuesta);
     }
-
-    
 }
