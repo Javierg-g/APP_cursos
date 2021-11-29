@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Usuario extends Model
 {
     use HasFactory;
+
+    public function cursos(){
+        return $this ->belongsToMany(Usuario::class, 'cursos_matriculados');
+    }
 }

@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Usuario;
+use App\Models\Video;
+use App\Models\Curso;
 
 class UsuariosController extends Controller
 {
-    public function crear(Request $req)
+    public function registrar(Request $req)
     {
 
         $respuesta = ["Status" => 1, "msg"];
@@ -52,8 +54,7 @@ class UsuariosController extends Controller
                 $respuesta['status'] = 0;
                 $respuesta['msg'] = "Se ha producido un error" . $e->getMessage();
             }
-
-        }else if(!$usuario->activado == 1){
+        } else if (!$usuario->activado == 1) {
             $respuesta["msg"] = "El usuario ya estaba desactivado";
             $respuesta["status"] = 0;
         } else {
@@ -71,7 +72,7 @@ class UsuariosController extends Controller
 
         $datos = $req->getContent();
 
-        $datos = json_decode($datos); 
+        $datos = json_decode($datos);
 
         $usuario = Usuario::find($id);
 
@@ -85,7 +86,7 @@ class UsuariosController extends Controller
             if (isset($datos->contraseña)) {
                 $usuario->contraseña = $datos->contraseña;
             }
-        
+
             //Escribir en BBDD
             try {
                 $usuario->save();
@@ -112,21 +113,38 @@ class UsuariosController extends Controller
         return response()->json($respuesta);
     }*/
 
-    public function ver($id){
+    public function ver($id)
+    {
         $respuesta = ["status" => 1, "msg" => ""];
 
 
         //Buscar a la persona
-        try{
+        try {
             $usuario = Usuario::find($id);
-            $usuario->makeVisible(['direccion','created_at','updated_at']);
+            $usuario->makeVisible(['direccion', 'created_at', 'updated_at']);
             $respuesta['datos'] = $usuario;
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             $respuesta['status'] = 0;
-            $respuesta['msg'] = "Se ha producido un error: ".$e->getMessage();
+            $respuesta['msg'] = "Se ha producido un error: " . $e->getMessage();
         }
 
         return response()->json($respuesta);
     }
-    
+
+    public function unirse($usuario, $curso)
+    {
+        $respuesta = ["status" => 1, "msg" => ""];
+        $usuario = Usuario::find($usuario);
+        $curso = Curso::find($curso);
+
+        if ($usuario && $curso) {
+            $curso->usuarios()->attach($curso);
+            $respuesta['msg'] = "El usuario se ha inscrito al curso";
+        } else {
+            $respuesta['status'] = 0;
+            $respuesta['msg'] = "Se ha producido un error:";
+        }
+
+        return response()->json($respuesta);
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Curso;
+use App\Models\Video;
 
 
 class CursosController extends Controller
@@ -36,22 +37,31 @@ class CursosController extends Controller
         return response()->json($respuesta);
     }
 
-    public function listar()
+    public function listar(Request $search)
     {
-
         $respuesta = ["status" => 1, "msg" => ""];
-        try {
-            $cursos = Curso::all();
-            $videos = DB::table('videos')->count();
 
-            $respuesta['datos'] = $cursos;
-            //$videos = DB::table('videos')->where('curso_id', )->count();
-            $respuesta['numero_videos'] = $videos;
+        if($search ->has('search')){
+            try {
+                $cursos = Curso::select(['titulo', 'foto_portada'])
+                    ->withCount('videos as numero_videos')
+                    ->where('titulo', 'like','%'.$search -> input('search').'%')
+                    ->get();
+              
+            } catch (\Exception $e) {
+                $respuesta['status'] = 0;
+                $respuesta['msg'] = "Se ha producido un error: " . $e->getMessage();
+            }
 
-        } catch (\Exception $e) {
-            $respuesta['status'] = 0;
-            $respuesta['msg'] = "Se ha producido un error: " . $e->getMessage();
+        }else{
+            $cursos = Curso::select(['titulo', 'foto_portada'])
+            ->withCount('videos as numero_videos')
+            ->get();
+
         }
+        $respuesta['Cursos'] = $cursos;
+
+       
         return response()->json($respuesta);
     }
 }

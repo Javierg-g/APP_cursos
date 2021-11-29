@@ -9,4 +9,11 @@ class Curso extends Model
 {
     use HasFactory;
     protected $hidden = ['id','descripcion','created_at','updated_at'];
+
+    public function videos(){
+        return $this ->hasMany(Video::class);
+    }
+    public function usuarios(){
+        return $this ->belongsToMany(Usuario::class, 'cursos_matriculados');
+    }
 }

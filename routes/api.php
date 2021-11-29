@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('usuarios')-> group(function(){
 
-    Route::put('/crear', [UsuariosController::class, 'crear']);
+    Route::put('/registrar', [UsuariosController::class, 'registrar']);
     Route::post('/desactivar/{id}', [UsuariosController::class, 'desactivar']);
     Route::post('/editar/{id}', [UsuariosController::class, 'editar']);
     Route::get('/ver/{id}', [UsuariosController::class, 'ver']);
+    Route::put('/unirse', [UsuariosController::class, 'unirse']);
 
 });
 
