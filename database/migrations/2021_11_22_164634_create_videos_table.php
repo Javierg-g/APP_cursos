@@ -17,7 +17,9 @@ class CreateVideosTable extends Migration
             $table->id();
             $table->string('enlace');
             $table->string('titulo');
+            $table->string('foto');
             $table->boolean('visto')->default(0);
+            $table->unsignedBigInteger('curso_id');
             $table->timestamps();
         });
     }
