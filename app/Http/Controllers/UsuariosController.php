@@ -116,9 +116,6 @@ class UsuariosController extends Controller
     public function ver($id)
     {
         $respuesta = ["status" => 1, "msg" => ""];
-
-
-        //Buscar a la persona
         try {
             $usuario = Usuario::find($id);
             $usuario->makeVisible(['direccion', 'created_at', 'updated_at']);
@@ -137,13 +134,26 @@ class UsuariosController extends Controller
         $usuario = Usuario::find($usuario);
         $curso = Curso::find($curso);
 
+
         if ($usuario && $curso) {
-            $curso->usuarios()->attach($curso);
+            $usuario->cursos()->attach($curso);
             $respuesta['msg'] = "El usuario se ha inscrito al curso";
         } else {
             $respuesta['status'] = 0;
             $respuesta['msg'] = "Se ha producido un error:";
         }
+
+        return response()->json($respuesta);
+    }
+
+    public function cursos($usuario)
+    {
+        $respuesta = ["status" => 1, "msg" => ""];
+        $usuario = Usuario::find($usuario);
+        if ($usuario) {
+            $cursosMatriculados = $usuario->cursos;
+        }
+        $respuesta['Cursos'] = $cursosMatriculados;
 
         return response()->json($respuesta);
     }

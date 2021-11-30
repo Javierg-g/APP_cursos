@@ -10,6 +10,6 @@ class Usuario extends Model
     use HasFactory;
 
     public function cursos(){
-        return $this ->belongsToMany(Usuario::class, 'cursos_matriculados');
+        return $this ->belongsToMany(Curso::class, 'cursos_matriculados');
     }
 }
