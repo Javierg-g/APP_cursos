@@ -100,18 +100,6 @@ class UsuariosController extends Controller
 
         return response()->json($respuesta);
     }
-    /*public function listar(){
-
-        $respuesta = ["status" => 1, "msg" => ""];
-        try{
-            $usuarios = Usuario::all();
-            $respuesta['datos'] = $usuarios;
-        }catch(\Exception $e){
-            $respuesta['status'] = 0;
-            $respuesta['msg'] = "Se ha producido un error: ".$e->getMessage();
-        }
-        return response()->json($respuesta);
-    }*/
 
     public function ver($id)
     {
