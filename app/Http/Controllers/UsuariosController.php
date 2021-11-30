@@ -149,8 +149,7 @@ class UsuariosController extends Controller
     public function cursos($usuario)
     {
         $respuesta = ["status" => 1, "msg" => ""];
-        $usuario = Usuario::find($usuario);
-        if ($usuario) {
+        if ($usuario = Usuario::find($usuario)) {
             $cursosMatriculados = $usuario->cursos;
         }
         $respuesta['Cursos'] = $cursosMatriculados;
